@@ -1,0 +1,17 @@
+object ArithmeticOperationsApp {
+  def main(args: Array[String]): Unit = {
+    // Sample data: list of pairs (a, b)
+    val data = List((10, 2), (15, 5), (9, 3), (20, 4))
+
+    println("Arithmetic Operations on (a, b):\n")
+
+    for ((a, b) <- data) {
+      println(s"For a = $a and b = $b:")
+      println(s"Addition: $a + $b = ${a + b}")
+      println(s"Subtraction: $a - $b = ${a - b}")
+      println(s"Multiplication: $a * $b = ${a * b}")
+      println(s"Division: $a / $b = ${a / b}")
+      println()
+    }
+  }
+}
