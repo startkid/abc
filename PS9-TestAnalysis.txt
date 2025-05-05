@@ -1,0 +1,77 @@
+// Text_Analysis
+
+import nltk
+import pandas as pd
+from nltk import word_tokenize, sent_tokenize, pos_tag
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+nltk.data.path.append("C:/Users/Aishwarya/nltk_data")
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+
+sent = "Sachin is considered to be one of the greatest cricket players. Virat is the captain of the Indian cricket team"
+print("Word Tokens:", word_tokenize(sent))
+print("Sentence Tokens:", sent_tokenize(sent))
+
+stop_words = stopwords.words('english')
+print("Stopwords:", stop_words)
+
+token = word_tokenize(sent)
+cleaned_token = [word for word in token if word.lower() not in stop_words]
+print("Uncleaned Tokens:", token)
+print("Cleaned Tokens:", cleaned_token)
+
+words = [word.lower() for word in cleaned_token if word.isalpha()]
+print("Alphabetic Cleaned Words:", words)
+
+stemmer = PorterStemmer()
+port_stemmer_output = [stemmer.stem(word) for word in words]
+print("Stemmed Words:", port_stemmer_output)
+
+lemmatizer = WordNetLemmatizer()
+lemmatizer_output = [lemmatizer.lemmatize(word) for word in words]
+print("Lemmatized Words:", lemmatizer_output)
+
+from nltk import pos_tag
+import nltk
+
+nltk.download('averaged_perceptron_tagger_eng')  # NEW line to fix your error
+
+tagged = pos_tag(cleaned_token)
+print("POS Tagged Tokens:", tagged)
+
+docs = [
+    "Sachin is considered to be one of the greatest cricket players",
+    "Federer is considered one of the greatest tennis players",
+    "Nadal is considered one of the greatest tennis players",
+    "Virat is the captain of the Indian cricket team"
+]
+vectorizer = TfidfVectorizer(analyzer="word", norm=None, use_idf=True, smooth_idf=True)
+Mat = vectorizer.fit(docs)
+print("Vocabulary:", Mat.vocabulary_)
+
+tfidfMat = vectorizer.fit_transform(docs)
+print("TF-IDF Matrix:\n", tfidfMat)
+
+features_names = vectorizer.get_feature_names_out()
+print("Feature Names:\n", features_names)
+
+
+dense = tfidfMat.todense()
+denselist = dense.tolist()
+df = pd.DataFrame(denselist, columns=features_names)
+print("TF-IDF DataFrame:\n", df)
+
+docList = ['Doc 1', 'Doc 2', 'Doc 3', 'Doc 4']
+features_names_sorted = sorted(features_names)
+skDocsTfidfDf = pd.DataFrame(tfidfMat.todense(), index=docList, columns=features_names)
+print("TF-IDF Matrix with Docs:\n", skDocsTfidfDf)
+
+csim = cosine_similarity(tfidfMat, tfidfMat)
+csimDf = pd.DataFrame(csim, index=docList, columns=docList)
+print("Cosine Similarity:\n", csimDf)
+

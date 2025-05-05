@@ -1,0 +1,50 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+titanic = sns.load_dataset('titanic')
+
+titanic.head()
+titanic.isnull().sum()
+
+# histogram for fare
+plt.figure(figsize=(8,5))
+plt.hist(titanic['fare'].dropna(),bins=30,edgecolor='black')
+plt.title('Histogram for fare')
+plt.xlabel('fare')
+plt.ylabel('frequency')
+plt.grid(True)
+plt.show()
+
+# distplot
+sns.set(style='whitegrid')
+sns.distplot(titanic['fare'].dropna(),bins=30,kde=True,color='purple')
+plt.title('Distribution plot of fare with KDE')
+plt.xlabel('fare')
+plt.ylabel('Density')
+plt.show()
+
+# histplot
+sns.histplot(data=titanic,x='fare',bins=30,kde=True,color='green')
+plt.title('histoplot for fare with kde')
+plt.xlabel('fare')
+plt.ylabel('count')
+plt.show()
+
+# jointplot
+sns.jointplot(x='fare',y='age',data=titanic , kind='scatter',height=6)
+plt.suptitle('jointplot :fare vs age',y=1.02)
+plt.show()
+
+#  rugplot
+sns.rugplot(x='fare',data=titanic,height=0.05)
+plt.title('rug plot of fare')
+plt.xlabel('fare')
+plt.show()
+
+# bar plot
+sns.barplot(x='class',y='fare',data=titanic,ci=None,palette='Set2')
+plt.title('Average fare by class')
+plt.xlabel('Passenger class')
+plt.ylabel('Average class')
+plt.show()
+

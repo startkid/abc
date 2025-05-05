@@ -1,0 +1,38 @@
+// outliers
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv("C:\\Users\\Aishwarya\\Downloads\\StudentsPerformance0.csv")
+df.head()
+df.columns
+df.isnull().sum()
+
+df['test preparation course'] = df['test preparation course'].fillna(df['test preparation course'].mode()[0])
+
+Q1 = df['math score'].quantile(0.25)
+Q3 = df['math score'].quantile(0.75)
+IQR = Q3-Q1
+IQR
+
+lower_bound = Q1 - 1.5*IQR
+upper_bound = Q3 + 1.5*IQR
+
+outliers = df[(df['math score'] < lower_bound) | (df['math score'] > upper_bound)]
+outliers
+
+#  now removing the outliers
+df_no_outliers = df[(df['math score'] >= lower_bound) & (df['math score'] <= upper_bound)]
+df_no_outliers.shape
+
+#  visualize
+sns.boxplot(x=df['math score'])
+plt.title("math score boxplot")
+plt.show()
+# z-score
+df['zscore'] = (df['math score'] - df['math score'].mean()) / df['math score'].std()
+df['zscore']
+sns.kdeplot(df['math score'])

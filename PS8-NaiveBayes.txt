@@ -1,0 +1,56 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import (
+    confusion_matrix, ConfusionMatrixDisplay, classification_report,
+    accuracy_score, precision_score, recall_score, f1_score
+)
+
+df = pd.read_csv("C:\\Users\\Aishwarya\\Downloads\\iris.csv")
+df.head()
+
+df.describe(include='all')
+
+x = df.iloc[:, :4].values
+y = df['species'].values
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=8)
+
+from sklearn.naive_bayes import GaussianNB
+naive_bayes = GaussianNB()
+naive_bayes.fit(x_train, y_train)
+
+y_pred = naive_bayes.predict(x_test)
+print("Predictions:", pred)
+print("Actual values:", y_test)
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True)
+plt.xlabel("Predicted Label")
+plt.ylabel("Actual Label")
+plt.title("Confusion Matrix")
+plt.show()
+print(cm)
+
+y_pred = naive_bayes.predict(x_test)
+print(y_pred)
+
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+
+results = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:")
+print(results)
+print('Accuracy Score :', accuracy_score(y_test , y_pred))
+print('Classification reports:')
+print(classification_report(y_test,y_pred))
+
+Accuracy=accuracy_score(y_test , y_pred)
+print(Accuracy)
+Error_rate=1-Accuracy
+print(Error_rate)

@@ -1,0 +1,43 @@
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+iris = sns.load_dataset('iris')
+iris.head()
+iris.dtypes
+
+corr = df.select_dtypes(include='number').corr()
+corr
+
+#  plot the heatmap
+plt.subplots(figsize=(10,6))
+sns.heatmap(corr,annot=True,cmap='coolwarm',fmt='.2f',linewidths=0.5)
+plt.title('correlation heatmap for iris datasets')
+plt.show()
+
+# boxplot for each feature(group by species)
+def graph(y):
+    sns.boxplot(x='species',y=y , data=iris)
+    plt.title(f"Boxplot of {y} by species")
+plt.figure(figsize=(10,10))
+plt.subplot(221)
+graph('sepal_length')
+plt.subplot(222)
+graph('sepal_width')
+plt.subplot(223)
+graph('petal_length')
+plt.subplot(224)
+graph('petal_width')
+plt.tight_layout()
+plt.show()
+
+# boxplot for indivial feature
+plt.figure(figsize=(10,6))
+sns.boxplot(x='sepal_width',data=iris)
+plt.title('Boxplot of SepalWidthCm')
+plt.show()
+sns.boxplot(x='sepal_length', data=df)
+plt.title('Boxplot of SepalLengthCm')
+plt.show()
+sns.boxplot(x='petal_width', data=df)
+plt.title('Boxplot of PetalWidthCm')
+plt.show()

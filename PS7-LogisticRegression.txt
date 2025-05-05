@@ -1,0 +1,49 @@
+#  Logistic Regression
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv("C:/Users/Aishwarya/Downloads/Social_Network_Ads (1).csv")
+df
+
+df.Purchased.value_counts()
+
+print(df['Age'].describe())
+sns.boxplot(df['Age'])
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['Age'] = le.fit_transform(df['Age'])
+df
+
+df.drop(["User ID"] , axis=1 , inplace=True)
+df
+
+from sklearn.model_selection import train_test_split
+
+x = np.asarray(df.drop(["Purchased"],axis=1))
+y = np.asarray(df["Purchased"])
+
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3)
+
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(x_train,y_train)
+
+y_pred = model.predict(x_test)
+
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(y_test,y_pred)
+accuracy
+tp = ((y_pred == 0 ) & (y_test == 0)).sum()
+fp = ((y_pred == 0 ) & (y_test == 1)).sum()
+tn = ((y_pred == 1 ) & (y_test == 1)).sum()
+fn = ((y_pred == 1 ) & (y_test == 0)).sum()
+
+recall = tp / (tp+fn) 
+accuracy = (tp+tn)/(tp+tn+fp+fn)
+precision = tp / (tp+fp)
+error = 1- accuracy
+f1 = (2*recall*precision)/(recall+precision)
+print(recall)
+print(accuracy)

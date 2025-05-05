@@ -1,0 +1,23 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+titanic = sns.load_dataset('titanic')
+titanic[['age','sex','survived']].head()
+
+#  Box-plot 
+plt.figure(figsize=(10,6))
+sns.boxplot(x='sex',y='age',hue='survived',data=titanic,palette='Set2')
+plt.title('Box Plot of Age by Gender and Survival Status')
+plt.xlabel('Gender')
+plt.ylabel('Age')
+plt.legend(title='survived',labels=['No','Yes'])
+plt.show()
+
+
+plt.figure(figsize=(10,6))
+sns.violinplot(x='sex',y='age',hue='survived',data=titanic,split=True,palette='Set1')
+plt.title('Voilin plot of Age by Gender and Survival Status')
+plt.xlabel('Gender')
+plt.ylabel('Age')
+plt.legend(title='survived',labels=['No','Yes'])
+plt.show()

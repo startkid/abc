@@ -1,0 +1,57 @@
+
+#  Data Wrangling I and II
+
+import pandas as pd
+import numpy as np
+df = pd.read_csv("C:\\Users\\Aishwarya\\Downloads\\car_price_dataset.csv")
+df
+
+df.describe()
+
+df.info()
+
+df.isnull().sum()
+df.isnull()
+df.describe(include=['object'])
+df.dtypes
+df.head(6)
+df.shape
+len(df)
+df.size
+
+# cat to numeric
+dummies = pd.get_dummies(df['Fuel_Type'])
+merged = pd.concat([df ,dummies],axis='columns')
+merged.drop(['Fuel_Type','Diesel'],axis='columns',inplace=True)
+merged.head()
+
+from sklearn.preprocessing import LabelEncoder
+labelencoder = LabelEncoder()
+df['Labelencoding_Transmission'] = labelencoder.fit_transform(df["Transmission"])
+df
+df['Labelencoding_Transmission'].value_counts()
+
+from sklearn.preprocessing import OrdinalEncoder
+ord_enc = OrdinalEncoder()
+df['Owner_Count_encoded'] = ord_enc.fit_transform(df[['Owner_Count']])
+df['Owner_Count_encoded'] 
+
+#  type conversion
+df['Brand'] = df['Brand'].astype('category')
+df['Model'] = df['Model'].astype('category')
+df['Fuel_Type'] = df['Fuel_Type'].astype('category')
+df['Transmission'] = df['Transmission'].astype('category')
+df
+df['Engine_Size']=pd.to_numeric(df['Engine_Size'],errors='coerce')
+df['Mileage'] = pd.to_numeric(df['Mileage'], errors='coerce')
+df['Price'] = pd.to_numeric(df['Price'], errors='coerce')
+df['Doors'] = pd.to_numeric(df['Doors'], errors='coerce')
+df.dtypes
+
+#  Normalization
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+num_cols = ['Year','Engine_Size','Mileage','Doors','Owner_Count','Price']
+df[num_cols]=scaler.fit_transform(df[num_cols])
+df[num_cols]
+
