@@ -34,3 +34,37 @@ import scala.io.StdIn.readLine
     }
   }
  }
+
+
+//simpler
+import scala.io.StdIn._
+
+object Calculator {
+  def main(args: Array[String]): Unit = {
+    var continue = true
+    while (continue) {
+      val num1 = readDouble()
+      val num2 = readDouble()
+      val op = readLine("Choose operation (+, -, *, /): ")
+
+      val result = op match {
+        case "+" => num1 + num2
+        case "-" => num1 - num2
+        case "*" => num1 * num2
+        case "/" if num2 != 0 => num1 / num2
+        case "/" => 
+          println("Cannot divide by zero!")
+          "Undefined"
+        case _ =>
+          println("Invalid operator.")
+          "Invalid"
+      }
+
+      println(s"Result: $result")
+
+      val choice = readLine("Do you want to perform another operation? (yes/no): ").toLowerCase
+      continue = choice == "yes" || choice == "y"
+    }
+    println("Exiting calculator. Goodbye!")
+  }
+}
